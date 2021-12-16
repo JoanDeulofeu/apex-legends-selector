@@ -2,6 +2,7 @@ import { createStyles, makeStyles } from "@mui/styles";
 import React from "react";
 import LegendsPaper from "./components/LegendsPaper";
 import OptionsBar from "./components/OptionsBar";
+import SelectionLauncher from "./components/SelectionLauncher";
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -23,6 +24,7 @@ const App = () => {
 		<div className={styles.container}>
 			<OptionsBar />
 			<LegendsPaper />
+			<SelectionLauncher />
 		</div>
 	);
 };
