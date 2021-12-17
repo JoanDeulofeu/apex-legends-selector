@@ -1,5 +1,6 @@
 import { createStyles, makeStyles } from "@mui/styles";
 import React from "react";
+import ContactFooter from "./components/ContactFooter";
 import LegendsPaper from "./components/LegendsPaper";
 import OptionsBar from "./components/OptionsBar";
 import SelectionLauncher from "./components/SelectionLauncher";
@@ -24,6 +25,7 @@ const App = () => {
 			<OptionsBar />
 			<LegendsPaper />
 			<SelectionLauncher />
+			<ContactFooter />
 		</div>
 	);
 };
