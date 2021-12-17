@@ -6,26 +6,36 @@ import { useOptions } from "./OptionsContextProvider";
 
 const LegendsSelectorContext = React.createContext();
 
+const RANDOM_LOTTERY_COUNT = 20;
+
 const LegendsSelectorContextProvider = ({ children }) => {
-	const { isSolo } = useOptions();
+	const { isSolo, banLegends } = useOptions();
 
 	const [legendSoloSelected, setLegendSoloSelected] = React.useState();
 	const [legendsSquadSelected, setLegendsSquadSelected] = React.useState([]);
 	const [isBeingSelected, setIsBeingSelected] = React.useState(false);
+	const [legends, setLegends] = React.useState(Object.keys(legendsImg));
 
 	React.useEffect(() => {
 		setLegendSoloSelected();
 		setLegendsSquadSelected([]);
-	}, [isSolo]);
+	}, [isSolo, legends]);
+
+	React.useEffect(() => {
+		//Get legends that are not banned.
+		setLegends(
+			Object.keys(legendsImg).filter((_legend) => !banLegends.includes(_legend))
+		);
+	}, [banLegends]);
 
 	const selectRandomlySoloLegend = async () => {
 		if (!isBeingSelected) {
 			setIsBeingSelected(true);
 			let i = 0;
-			for (i = 0; i < 20; i++) {
-				const idx = getRandomInt(Object.keys(legendsImg).length);
-				setLegendSoloSelected(Object.keys(legendsImg)[idx]);
-				await timeOut(400 - i * 20);
+			for (i = 0; i < RANDOM_LOTTERY_COUNT; i++) {
+				const idx = getRandomInt(legends.length);
+				setLegendSoloSelected(legends[idx]);
+				await timeOut(400 - i * RANDOM_LOTTERY_COUNT);
 			}
 			setIsBeingSelected(false);
 		}
@@ -46,24 +56,16 @@ const LegendsSelectorContextProvider = ({ children }) => {
 		if (!isBeingSelected) {
 			setIsBeingSelected(true);
 			let i = 0;
-			for (i = 0; i < 20; i++) {
-				const firstIdx = getUniqueIndex(Object.keys(legendsImg).length, -1, -1);
-				const secondIdx = getUniqueIndex(
-					Object.keys(legendsImg).length,
-					firstIdx,
-					-1
-				);
-				const thirdIdx = getUniqueIndex(
-					Object.keys(legendsImg).length,
-					firstIdx,
-					secondIdx
-				);
+			for (i = 0; i < RANDOM_LOTTERY_COUNT; i++) {
+				const firstIdx = getUniqueIndex(legends.length, -1, -1);
+				const secondIdx = getUniqueIndex(legends.length, firstIdx, -1);
+				const thirdIdx = getUniqueIndex(legends.length, firstIdx, secondIdx);
 				setLegendsSquadSelected([
-					Object.keys(legendsImg)[firstIdx],
-					Object.keys(legendsImg)[secondIdx],
-					Object.keys(legendsImg)[thirdIdx],
+					legends[firstIdx],
+					legends[secondIdx],
+					legends[thirdIdx],
 				]);
-				await timeOut(400 - i * 20);
+				await timeOut(400 - i * RANDOM_LOTTERY_COUNT);
 			}
 			setIsBeingSelected(false);
 		}
@@ -75,6 +77,7 @@ const LegendsSelectorContextProvider = ({ children }) => {
 				legendSoloSelected,
 				legendsSquadSelected,
 				isBeingSelected,
+				legends,
 				selectRandomlySoloLegend,
 				selectRandomlySquadLegend,
 			}}

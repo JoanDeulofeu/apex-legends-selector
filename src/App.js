@@ -12,7 +12,6 @@ const useStyles = makeStyles(() =>
 			alignItems: "center",
 			minHeight: "100vh",
 			padding: 50,
-			minWidth: 200,
 		},
 	})
 );

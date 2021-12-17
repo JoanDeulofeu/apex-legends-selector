@@ -12,7 +12,8 @@ const useStyles = makeStyles((theme) =>
 		container: {
 			borderRadius: 50,
 			padding: 10,
-			minWidth: "100%",
+			minWidth: 250,
+			width: "100%",
 		},
 		item: {
 			display: "flex",
@@ -35,8 +36,11 @@ const useStyles = makeStyles((theme) =>
 		},
 		legendImg: {
 			marginRight: 15,
+			[theme.breakpoints.down("sm")]: {
+				marginRight: 0,
+			},
 			[theme.breakpoints.down("md")]: {
-				width: 80,
+				width: 50,
 			},
 			[theme.breakpoints.up("md")]: {
 				width: 100,
@@ -45,72 +49,69 @@ const useStyles = makeStyles((theme) =>
 		textContainer: {
 			width: "7vw",
 			minWidth: 100,
+			[theme.breakpoints.down("sm")]: {
+				display: "none",
+			},
 		},
 	})
 );
 
 const LegendsPaper = () => {
 	const styles = useStyles();
-	const { banLegends, isSolo } = useOptions();
-	const { isBeingSelected, legendSoloSelected, legendsSquadSelected } =
+	const { isSolo } = useOptions();
+	const { isBeingSelected, legendSoloSelected, legendsSquadSelected, legends } =
 		useLegendsSelector();
 
 	return (
 		<>
-			{banLegends.length < Object.keys(legendsImg).length - (isSolo ? 1 : 2) ? (
+			{legends.length >= (isSolo ? 2 : 3) ? (
 				<Paper className={styles.container}>
 					<Grid container>
-						{Object.keys(legendsImg).map((_legendName) => {
+						{legends.map((_legend) => {
 							const isInSelection =
 								isBeingSelected &&
-								((isSolo && legendSoloSelected === _legendName) ||
-									(legendsSquadSelected[0] === _legendName && !isSolo) ||
-									(legendsSquadSelected[1] === _legendName && !isSolo) ||
-									(legendsSquadSelected[2] === _legendName && !isSolo));
+								((isSolo && legendSoloSelected === _legend) ||
+									(legendsSquadSelected[0] === _legend && !isSolo) ||
+									(legendsSquadSelected[1] === _legend && !isSolo) ||
+									(legendsSquadSelected[2] === _legend && !isSolo));
 							const isFirstSelected =
-								(isSolo && legendSoloSelected === _legendName) ||
-								(legendsSquadSelected[0] === _legendName && !isSolo);
+								(isSolo && legendSoloSelected === _legend) ||
+								(legendsSquadSelected[0] === _legend && !isSolo);
 							const isSecondSelected =
-								legendsSquadSelected[1] === _legendName && !isSolo;
+								legendsSquadSelected[1] === _legend && !isSolo;
 							const isThirdSelected =
-								legendsSquadSelected[2] === _legendName && !isSolo;
-							if (!banLegends.includes(_legendName))
-								return (
-									<Grid
-										key={_legendName}
-										item
-										xs={12}
-										sm={6}
-										md={4}
-										lg={3}
-										xl={2}
-										className={clsx(
-											styles.item,
-											isInSelection && styles.itemInSelection,
-											!isBeingSelected &&
-												isFirstSelected &&
-												styles.itemSelected1,
-											!isBeingSelected &&
-												isSecondSelected &&
-												styles.itemSelected2,
-											!isBeingSelected &&
-												isThirdSelected &&
-												styles.itemSelected3
-										)}
-									>
-										<img
-											className={styles.legendImg}
-											alt={_legendName}
-											src={legendsImg[_legendName]}
-										></img>
-										<div className={styles.textContainer}>
-											<Typography variant="text">
-												{capitalize(_legendName)}
-											</Typography>
-										</div>
-									</Grid>
-								);
-							else return <></>;
+								legendsSquadSelected[2] === _legend && !isSolo;
+							return (
+								<Grid
+									key={_legend}
+									item
+									xs={4}
+									sm={6}
+									md={4}
+									lg={3}
+									xl={2}
+									className={clsx(
+										styles.item,
+										isInSelection && styles.itemInSelection,
+										!isBeingSelected && isFirstSelected && styles.itemSelected1,
+										!isBeingSelected &&
+											isSecondSelected &&
+											styles.itemSelected2,
+										!isBeingSelected && isThirdSelected && styles.itemSelected3
+									)}
+								>
+									<img
+										className={styles.legendImg}
+										alt={_legend}
+										src={legendsImg[_legend]}
+									></img>
+									<div className={styles.textContainer}>
+										<Typography variant="text">
+											{capitalize(_legend)}
+										</Typography>
+									</div>
+								</Grid>
+							);
 						})}
 					</Grid>
 				</Paper>

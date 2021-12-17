@@ -23,6 +23,9 @@ const useStyles = makeStyles(() =>
 			padding: 15,
 			paddingLeft: 25,
 			paddingRight: 25,
+			minWidth: 250,
+			width: "100%",
+			borderRadius: "50px !important",
 		},
 		buttonGlobal: {
 			width: "100%",
