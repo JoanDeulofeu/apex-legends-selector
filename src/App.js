@@ -5,7 +5,7 @@ import LegendsPaper from "./components/LegendsPaper";
 import Logo from "./components/Logo";
 import OptionsBar from "./components/OptionsBar";
 import SelectionLauncher from "./components/SelectionLauncher";
-import background from "./Images/background.png";
+import background from "./Images/background2.png";
 
 const useStyles = makeStyles(() =>
 	createStyles({
