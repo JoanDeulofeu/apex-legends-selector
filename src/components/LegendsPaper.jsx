@@ -6,6 +6,7 @@ import { capitalize } from "../utils";
 import { useOptions } from "../contexts/OptionsContextProvider";
 import { useLegendsSelector } from "../contexts/LegendsSelectorContextProvider";
 import clsx from "clsx";
+import Tada from "react-reveal/Tada";
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -100,16 +101,24 @@ const LegendsPaper = () => {
 										!isBeingSelected && isThirdSelected && styles.itemSelected3
 									)}
 								>
-									<img
-										className={styles.legendImg}
-										alt={_legend}
-										src={legendsImg[_legend]}
-									></img>
-									<div className={styles.textContainer}>
-										<Typography variant="text">
-											{capitalize(_legend)}
-										</Typography>
-									</div>
+									<Tada
+										when={
+											!isBeingSelected &&
+											(isFirstSelected || isSecondSelected || isThirdSelected)
+										}
+										duration={1500}
+									>
+										<img
+											className={styles.legendImg}
+											alt={_legend}
+											src={legendsImg[_legend]}
+										></img>
+										<div className={styles.textContainer}>
+											<Typography variant="text">
+												{capitalize(_legend)}
+											</Typography>
+										</div>
+									</Tada>
 								</Grid>
 							);
 						})}
