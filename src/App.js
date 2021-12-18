@@ -5,6 +5,7 @@ import LegendsPaper from "./components/LegendsPaper";
 import Logo from "./components/Logo";
 import OptionsBar from "./components/OptionsBar";
 import SelectionLauncher from "./components/SelectionLauncher";
+import background from "./Images/background.png";
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -15,6 +16,8 @@ const useStyles = makeStyles(() =>
 			minHeight: "100vh",
 			padding: 50,
 			paddingTop: 0,
+			backgroundImage: `url(${background})`,
+			backgroundSize: "cover",
 		},
 	})
 );
